@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="uk">
 <head>
   <meta charset="UTF-8">
@@ -63,11 +63,11 @@
       margin-bottom: 20px;
     }
 
-    /* Картка лояльності */
+    /* Блок 6 чашок */
     .loyalty-box {
       background: #FFFFFF;
       border-radius: 20px;
-      padding: 18px;
+      padding: 20px 18px;
       width: 100%;
       margin-bottom: 20px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.03);
@@ -87,7 +87,7 @@
       display: flex;
       justify-content: space-between;
       gap: 6px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .cup-slot {
@@ -123,41 +123,70 @@
       border-color: var(--success);
     }
 
-    .loyalty-action {
+    .upload-action-box {
       display: flex;
+      flex-direction: column;
       gap: 8px;
     }
 
+    .file-btn-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+    }
+
     .btn-cup {
-      flex: 1;
-      padding: 10px;
-      font-size: 12px;
+      width: 100%;
+      padding: 13px;
+      font-size: 12.5px;
       font-weight: 600;
-      border-radius: 12px;
-      border: 1px solid var(--accent);
-      background: transparent;
+      border-radius: 14px;
+      border: 1.5px dashed var(--accent);
+      background: #FAF8F5;
       color: var(--accent);
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.2s ease;
     }
 
     .btn-cup:active {
       background: var(--accent-soft);
     }
 
-    /* Форма виплати кешбеку */
+    .file-btn-wrapper input[type="file"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    /* Блок для 6-ї чашки */
     .cashback-form {
       display: none;
       flex-direction: column;
       gap: 12px;
       margin-top: 15px;
-      text-align: left;
+      text-align: center;
     }
 
-    .cashback-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: -4px;
+    .cashback-input-box {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .cashback-input {
@@ -168,39 +197,14 @@
       font-size: 14px;
       outline: none;
       width: 100%;
+      text-align: center;
     }
 
     .cashback-input:focus {
       border-color: var(--accent);
     }
 
-    .file-upload-box {
-      border: 1.5px dashed var(--accent);
-      background: #FAF8F5;
-      border-radius: 12px;
-      padding: 12px;
-      text-align: center;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .file-upload-box input[type="file"] {
-      position: absolute;
-      left: 0;
-      top: 0;
-      opacity: 0;
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-    }
-
-    .file-status-text {
-      font-size: 12px;
-      color: var(--accent);
-      font-weight: 500;
-    }
-
-    /* Картка причин випити каву */
+    /* Картка причин */
     .card {
       background: var(--card-bg);
       border-radius: 28px;
@@ -294,9 +298,9 @@
     <div class="brand-title">Body Karma Soul</div>
     <div class="subtitle">Твоя кава, настрій та лояльність</div>
 
-    <!-- БЛОК ЛОЯЛЬНОСТІ: 6 ЧАШОК -->
+    <!-- КАРТКА ЛОЯЛЬНОСТІ -->
     <div class="loyalty-box">
-      <div class="loyalty-title" id="loyalty-header">Твоя 6-та кава — за наш рахунок</div>
+      <div class="loyalty-title">Твоя 6-та кава — за наш рахунок</div>
       <div class="cups-grid">
         <div class="cup-slot" id="cup-1">☕️</div>
         <div class="cup-slot" id="cup-2">☕️</div>
@@ -306,29 +310,37 @@
         <div class="cup-slot free-cup" id="cup-6">🎁</div>
       </div>
       
-      <div class="loyalty-action">
-        <button class="btn-cup" id="btn-add-cup">➕ Я купив каву сьогодні</button>
+      <!-- Завантаження чека для чашок 1..5 -->
+      <div class="upload-action-box" id="upload-box">
+        <div class="file-btn-wrapper">
+          <button class="btn-cup" id="btn-upload-text">📸 Додати чек для чашки #1</button>
+          <input type="file" id="cup-receipt-input" accept="image/*">
+        </div>
+        <p style="font-size: 11px; color: var(--text-muted);">Скріншот з банкінгу або фото чека</p>
       </div>
 
-      <!-- Форма кешбеку зі скріншотом -->
+      <!-- Блок для 6-ї чашки -->
       <div class="cashback-form" id="cashback-block">
-        <p style="font-size: 13px; color: var(--success); font-weight: 600; text-align: center;">Ура! 6-та чашка безкоштовна 🎉</p>
-        <p style="font-size: 12px; color: #555; text-align: center;">Оплати каву на автоматі та отримай 100% повернення коштів:</p>
+        <p style="font-size: 13.5px; color: var(--success); font-weight: 600;">Твоя 6-та кава — за наш рахунок ✨</p>
+        <p style="font-size: 12.5px; color: #555; line-height: 1.5;">
+          Сплачуй напій на автоматі, завантажуй чек — і ми повернемо кошти на твою картку <b>протягом 10 хвилин</b>.
+        </p>
         
-        <span class="cashback-label">Куди повернути кошти:</span>
-        <input type="text" class="cashback-input" id="cashback-card" placeholder="Номер картки або телефону">
-        
-        <span class="cashback-label">Підтвердження оплати:</span>
-        <div class="file-upload-box">
-          <input type="file" id="cashback-file" accept="image/*">
-          <span class="file-status-text" id="file-status">📎 Прикріпити скріншот оплати з банку</span>
+        <!-- Кнопка вибору чека для 6-ї чашки -->
+        <div class="file-btn-wrapper">
+          <button class="btn-cup" id="btn-final-file-text">📎 Завантажити чек 6-ї чашки</button>
+          <input type="file" id="final-receipt-input" accept="image/*">
         </div>
 
-        <button class="btn btn-green" id="btn-send-cashback" style="padding: 14px;">Отримати повернення коштів</button>
+        <!-- Поле вводу карти (з'являється після завантаження чека) -->
+        <div class="cashback-input-box" id="card-input-wrapper">
+          <input type="text" class="cashback-input" id="cashback-card" placeholder="Номер картки для виплати кешбеку">
+          <button class="btn btn-green" id="btn-send-cashback" style="padding: 14px; margin-top: 0;">Отримати повернення коштів</button>
+        </div>
       </div>
     </div>
 
-    <!-- БЛОК: ПРИЧИНА ВИПИТИ КАВУ -->
+    <!-- КАРТКА ПРИЧИНИ ВИПИТИ КАВУ -->
     <div class="card" id="card">
       <div id="welcome-view">
         <div class="stamp">Знак на сьогодні</div>
@@ -357,14 +369,24 @@
     const TELEGRAM_BOT_TOKEN = "8856062384:AAGQPK6ClDXvSvInfILCOfIX11TZXvP9Z_Q";
     const TELEGRAM_CHAT_ID = "592802776";
 
-    // Логіка 6 чашок
+    // Унікальний ідентифікатор клієнта
+    let userAppId = localStorage.getItem('karma_user_id');
+    if (!userAppId) {
+      userAppId = 'User-' + Math.floor(1000 + Math.random() * 9000);
+      localStorage.setItem('karma_user_id', userAppId);
+    }
+
     let cupsCount = parseInt(localStorage.getItem('karma_cups_count') || '0', 10);
-    const btnAddCup = document.getElementById('btn-add-cup');
+    const uploadBox = document.getElementById('upload-box');
+    const cupReceiptInput = document.getElementById('cup-receipt-input');
+    const btnUploadText = document.getElementById('btn-upload-text');
+
     const cashbackBlock = document.getElementById('cashback-block');
+    const cardInputWrapper = document.getElementById('card-input-wrapper');
+    const cashbackCard = document.getElementById('cashback-card');
+    const finalReceiptInput = document.getElementById('final-receipt-input');
+    const btnFinalFileText = document.getElementById('btn-final-file-text');
     const btnSendCashback = document.getElementById('btn-send-cashback');
-    const cashbackInput = document.getElementById('cashback-card');
-    const cashbackFile = document.getElementById('cashback-file');
-    const fileStatus = document.getElementById('file-status');
 
     function updateCupsUI() {
       for (let i = 1; i <= 6; i++) {
@@ -376,54 +398,29 @@
         }
       }
 
-      if (cupsCount >= 6) {
+      if (cupsCount >= 5) {
+        uploadBox.style.display = 'none';
         cashbackBlock.style.display = 'flex';
-        btnAddCup.style.display = 'none';
       } else {
+        uploadBox.style.display = 'flex';
         cashbackBlock.style.display = 'none';
-        btnAddCup.style.display = 'block';
+        cardInputWrapper.style.display = 'none';
+        btnUploadText.textContent = `📸 Додати чек для чашки #${cupsCount + 1}`;
       }
     }
 
-    btnAddCup.addEventListener('click', () => {
-      if (cupsCount < 6) {
-        cupsCount++;
-        localStorage.setItem('karma_cups_count', cupsCount);
-        updateCupsUI();
-      }
-    });
+    // Завантаження чека для чашок 1..5
+    cupReceiptInput.addEventListener('change', async () => {
+      const file = cupReceiptInput.files[0];
+      if (!file) return;
 
-    cashbackFile.addEventListener('change', () => {
-      if (cashbackFile.files.length > 0) {
-        fileStatus.textContent = `✅ Обрано: ${cashbackFile.files[0].name.substring(0, 20)}...`;
-      } else {
-        fileStatus.textContent = '📎 Прикріпити скріншот оплати з банку';
-      }
-    });
+      btnUploadText.textContent = '⏳ Перевірка та збереження...';
 
-    btnSendCashback.addEventListener('click', async () => {
-      const cardDetails = cashbackInput.value.trim();
-      const file = cashbackFile.files[0];
-
-      if (!cardDetails) {
-        alert('Будь ласка, вкажіть номер картки або телефону для виплати');
-        return;
-      }
-
-      if (!file) {
-        alert('Будь ласка, прикріпіть скріншот оплати кави для перевірки');
-        return;
-      }
-
-      btnSendCashback.textContent = 'Перевіряємо та надсилаємо...';
-      btnSendCashback.disabled = true;
-
-      const captionText = `🎉 ЗАЯВКА НА КЕШБЕК (6-ТА КАВА)!\nКлієнт Body Karma Soul зібрав 6 чашок!\n💳 Реквізити: ${cardDetails}`;
-
+      const nextCupNum = cupsCount + 1;
       const formData = new FormData();
       formData.append('chat_id', TELEGRAM_CHAT_ID);
       formData.append('photo', file);
-      formData.append('caption', captionText);
+      formData.append('caption', `☕️ ЧЕК ЗА ЧАШКУ #${nextCupNum}/6\n👤 Клієнт: [${userAppId}]\nЧас: ${new Date().toLocaleTimeString('uk-UA')}`);
 
       try {
         const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
@@ -431,20 +428,73 @@
           body: formData
         });
 
-        if (!res.ok) throw new Error('Помилка Telegram API');
+        if (!res.ok) throw new Error();
 
-        alert('Заявку зі скріншотом успішно надіслано! Ми перевіримо оплату та перекажемо кошти найближчим часом. Смачного!');
-        
+        cupsCount++;
+        localStorage.setItem('karma_cups_count', cupsCount);
+        alert(`Чек для чашки #${cupsCount} успішно зараховано!`);
+        cupReceiptInput.value = '';
+        updateCupsUI();
+      } catch (e) {
+        alert('Помилка завантаження. Спробуйте ще раз.');
+        updateCupsUI();
+      }
+    });
+
+    // Вибір чека 6-ї чашки
+    finalReceiptInput.addEventListener('change', () => {
+      if (finalReceiptInput.files.length > 0) {
+        const fileName = finalReceiptInput.files[0].name;
+        btnFinalFileText.textContent = `✅ Чек додано: ${fileName.substring(0, 15)}...`;
+        cardInputWrapper.style.display = 'flex';
+      } else {
+        cardInputWrapper.style.display = 'none';
+      }
+    });
+
+    // Відправка фінальної заявки
+    btnSendCashback.addEventListener('click', async () => {
+      const cardDetails = cashbackCard.value.trim();
+      const file = finalReceiptInput.files[0];
+
+      if (!file) {
+        alert('Будь ласка, завантажте чек для 6-ї чашки');
+        return;
+      }
+
+      if (!cardDetails) {
+        alert('Будь ласка, вкажіть номер картки для повернення коштів');
+        return;
+      }
+
+      btnSendCashback.textContent = 'Відправляємо...';
+      btnSendCashback.disabled = true;
+
+      const formData = new FormData();
+      formData.append('chat_id', TELEGRAM_CHAT_ID);
+      formData.append('photo', file);
+      formData.append('caption', `🎉 ФІНАЛЬНИЙ 6-Й ЧЕК ТА ВИПЛАТА КЕШБЕКУ!\n👤 Клієнт: [${userAppId}]\n💳 Реквізити: ${cardDetails}\nВсі 6 чеків цього клієнта надіслані вище.`);
+
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!res.ok) throw new Error();
+
+        alert('Усі 6 чашок підтверджено! Кошти повернуться на вашу картку протягом 10 хвилин. Смачного!');
         cupsCount = 0;
         localStorage.setItem('karma_cups_count', '0');
-        cashbackInput.value = '';
-        cashbackFile.value = '';
-        fileStatus.textContent = '📎 Прикріпити скріншот оплати з банку';
+        cashbackCard.value = '';
+        finalReceiptInput.value = '';
+        btnFinalFileText.textContent = '📎 Завантажити чек 6-ї чашки';
+        cardInputWrapper.style.display = 'none';
         btnSendCashback.textContent = 'Отримати повернення коштів';
         btnSendCashback.disabled = false;
         updateCupsUI();
       } catch (e) {
-        alert('Сталася помилка під час надсилання фото. Будь ласка, спробуйте ще раз або зверніться до адміністратора.');
+        alert('Помилка відправки. Будь ласка, спробуйте ще раз.');
         btnSendCashback.disabled = false;
         btnSendCashback.textContent = 'Отримати повернення коштів';
       }
