@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Body Karma Soul — Твоя кава та печиво</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #F7F5F0;
+      --card-bg: #FFFFFF;
+      --text-main: #2B2A28;
+      --text-muted: #8A8882;
+      --accent: #B89B72;
+      --accent-soft: #EDE6DC;
+      --success: #52796F;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .brand-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    /* Картка лояльності */
+    .loyalty-box {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 18px;
+      width: 100%;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+      border: 1px solid var(--accent-soft);
+    }
+
+    .loyalty-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .cups-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .cup-slot {
+      width: 44px;
+      height: 48px;
+      border-radius: 12px;
+      border: 1.5px dashed var(--accent-soft);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--text-muted);
+      background-color: #FAF8F5;
+      transition: all 0.25s ease;
+    }
+
+    .cup-slot.active {
+      background-color: var(--accent);
+      border-color: var(--accent);
+      color: #FFFFFF;
+      transform: scale(1.05);
+      border-style: solid;
+    }
+
+    .cup-slot.free-cup {
+      border: 1.5px solid var(--accent);
+      background: #FFF8EE;
+    }
+
+    .cup-slot.free-cup.active {
+      background: var(--success);
+      border-color: var(--success);
+    }
+
+    .loyalty-action {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-cup {
+      flex: 1;
+      padding: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 12px;
+      border: 1px solid var(--accent);
+      background: transparent;
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    .btn-cup:active {
+      background: var(--accent-soft);
+    }
+
+    /* Форма виплати кешбеку */
+    .cashback-form {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 15px;
+      text-align: left;
+    }
+
+    .cashback-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: -4px;
+    }
+
+    .cashback-input {
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--accent-soft);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      width: 100%;
+    }
+
+    .cashback-input:focus {
+      border-color: var(--accent);
+    }
+
+    .file-upload-box {
+      border: 1.5px dashed var(--accent);
+      background: #FAF8F5;
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .file-upload-box input[type="file"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .file-status-text {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* Картка причин випити каву */
+    .card {
+      background: var(--card-bg);
+      border-radius: 28px;
+      padding: 32px 24px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(184, 155, 114, 0.2);
+      width: 100%;
+      position: relative;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .stamp {
+      display: inline-block;
+      border: 1px dashed var(--accent);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+      background-color: #FAF8F5;
+    }
+
+    .card-title {
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 14px;
+      line-height: 1.35;
+    }
+
+    .card-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #55534E;
+      font-weight: 300;
+    }
+
+    .footer-seal {
+      margin-top: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--accent-soft);
+      padding-top: 12px;
+      font-style: italic;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      padding: 16px;
+      border-radius: 18px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--text-main);
+      color: #FFFFFF;
+      box-shadow: 0 8px 24px rgba(43, 42, 40, 0.15);
+      width: 100%;
+      margin-top: 18px;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+      background-color: #1A1918;
+    }
+
+    .btn-green {
+      background-color: var(--success);
+      margin-top: 5px;
+    }
+
+    .hint {
+      margin-top: 16px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="brand-title">Body Karma Soul</div>
+    <div class="subtitle">Твоя кава, настрій та лояльність</div>
+
+    <!-- БЛОК ЛОЯЛЬНОСТІ: 6 ЧАШОК -->
+    <div class="loyalty-box">
+      <div class="loyalty-title" id="loyalty-header">Твоя 6-та кава — за наш рахунок</div>
+      <div class="cups-grid">
+        <div class="cup-slot" id="cup-1">☕️</div>
+        <div class="cup-slot" id="cup-2">☕️</div>
+        <div class="cup-slot" id="cup-3">☕️</div>
+        <div class="cup-slot" id="cup-4">☕️</div>
+        <div class="cup-slot" id="cup-5">☕️</div>
+        <div class="cup-slot free-cup" id="cup-6">🎁</div>
+      </div>
+      
+      <div class="loyalty-action">
+        <button class="btn-cup" id="btn-add-cup">➕ Я купив каву сьогодні</button>
+      </div>
+
+      <!-- Форма кешбеку зі скріншотом -->
+      <div class="cashback-form" id="cashback-block">
+        <p style="font-size: 13px; color: var(--success); font-weight: 600; text-align: center;">Ура! 6-та чашка безкоштовна 🎉</p>
+        <p style="font-size: 12px; color: #555; text-align: center;">Оплати каву на автоматі та отримай 100% повернення коштів:</p>
+        
+        <span class="cashback-label">Куди повернути кошти:</span>
+        <input type="text" class="cashback-input" id="cashback-card" placeholder="Номер картки або телефону">
+        
+        <span class="cashback-label">Підтвердження оплати:</span>
+        <div class="file-upload-box">
+          <input type="file" id="cashback-file" accept="image/*">
+          <span class="file-status-text" id="file-status">📎 Прикріпити скріншот оплати з банку</span>
+        </div>
+
+        <button class="btn btn-green" id="btn-send-cashback" style="padding: 14px;">Отримати повернення коштів</button>
+      </div>
+    </div>
+
+    <!-- БЛОК: ПРИЧИНА ВИПИТИ КАВУ -->
+    <div class="card" id="card">
+      <div id="welcome-view">
+        <div class="stamp">Знак на сьогодні</div>
+        <h2 class="card-title">Чому тобі варто випити каву прямо зараз?</h2>
+        <p class="card-text">
+          Тисни кнопку нижче, щоб отримати персональний імпульс бадьорості, обирай напій та не забудь взяти печиво з передбаченням ✨
+        </p>
+      </div>
+
+      <div id="reason-view" style="display: none;">
+        <div class="stamp" id="reason-number">Причина #001</div>
+        <h2 class="card-title" id="reason-header">Заголовок</h2>
+        <p class="card-text" id="reason-desc">Текст причини</p>
+        <div class="footer-seal">Пригощайся з любовʼю від Body Karma Soul ☕️✨</div>
+      </div>
+    </div>
+
+    <button class="btn" id="btn-action">
+      <span id="btn-text">Дізнатися причину для кави</span>
+    </button>
+
+    <div class="hint">Печиво з передбаченням — безкоштовний комплімент до кожної кави</div>
+  </div>
+
+  <script>
+    const TELEGRAM_BOT_TOKEN = "8856062384:AAGQPK6ClDXvSvInfILCOfIX11TZXvP9Z_Q";
+    const TELEGRAM_CHAT_ID = "592802776";
+
+    // Логіка 6 чашок
+    let cupsCount = parseInt(localStorage.getItem('karma_cups_count') || '0', 10);
+    const btnAddCup = document.getElementById('btn-add-cup');
+    const cashbackBlock = document.getElementById('cashback-block');
+    const btnSendCashback = document.getElementById('btn-send-cashback');
+    const cashbackInput = document.getElementById('cashback-card');
+    const cashbackFile = document.getElementById('cashback-file');
+    const fileStatus = document.getElementById('file-status');
+
+    function updateCupsUI() {
+      for (let i = 1; i <= 6; i++) {
+        const slot = document.getElementById(`cup-${i}`);
+        if (i <= cupsCount) {
+          slot.classList.add('active');
+        } else {
+          slot.classList.remove('active');
+        }
+      }
+
+      if (cupsCount >= 6) {
+        cashbackBlock.style.display = 'flex';
+        btnAddCup.style.display = 'none';
+      } else {
+        cashbackBlock.style.display = 'none';
+        btnAddCup.style.display = 'block';
+      }
+    }
+
+    btnAddCup.addEventListener('click', () => {
+      if (cupsCount < 6) {
+        cupsCount++;
+        localStorage.setItem('karma_cups_count', cupsCount);
+        updateCupsUI();
+      }
+    });
+
+    cashbackFile.addEventListener('change', () => {
+      if (cashbackFile.files.length > 0) {
+        fileStatus.textContent = `✅ Обрано: ${cashbackFile.files[0].name.substring(0, 20)}...`;
+      } else {
+        fileStatus.textContent = '📎 Прикріпити скріншот оплати з банку';
+      }
+    });
+
+    btnSendCashback.addEventListener('click', async () => {
+      const cardDetails = cashbackInput.value.trim();
+      const file = cashbackFile.files[0];
+
+      if (!cardDetails) {
+        alert('Будь ласка, вкажіть номер картки або телефону для виплати');
+        return;
+      }
+
+      if (!file) {
+        alert('Будь ласка, прикріпіть скріншот оплати кави для перевірки');
+        return;
+      }
+
+      btnSendCashback.textContent = 'Перевіряємо та надсилаємо...';
+      btnSendCashback.disabled = true;
+
+      const captionText = `🎉 ЗАЯВКА НА КЕШБЕК (6-ТА КАВА)!\nКлієнт Body Karma Soul зібрав 6 чашок!\n💳 Реквізити: ${cardDetails}`;
+
+      const formData = new FormData();
+      formData.append('chat_id', TELEGRAM_CHAT_ID);
+      formData.append('photo', file);
+      formData.append('caption', captionText);
+
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!res.ok) throw new Error('Помилка Telegram API');
+
+        alert('Заявку зі скріншотом успішно надіслано! Ми перевіримо оплату та перекажемо кошти найближчим часом. Смачного!');
+        
+        cupsCount = 0;
+        localStorage.setItem('karma_cups_count', '0');
+        cashbackInput.value = '';
+        cashbackFile.value = '';
+        fileStatus.textContent = '📎 Прикріпити скріншот оплати з банку';
+        btnSendCashback.textContent = 'Отримати повернення коштів';
+        btnSendCashback.disabled = false;
+        updateCupsUI();
+      } catch (e) {
+        alert('Сталася помилка під час надсилання фото. Будь ласка, спробуйте ще раз або зверніться до адміністратора.');
+        btnSendCashback.disabled = false;
+        btnSendCashback.textContent = 'Отримати повернення коштів';
+      }
+    });
+
+    updateCupsUI();
+
+    // Генератор причин
+    const titles = ["Фокус та концентрація", "Закон гармонійного дня", "Тактична пауза", "Джерело натхнення", "Кармічний заряд", "Абсолютна бадьорість", "Момент турботи про себе", "Секрет продуктивності", "Дофаміновий баланс", "Дзен-імпульс", "Теплий ритуал", "Ідеальний вибір"];
+    const intros = ["Твоє тіло та розум зараз одностайні:", "Всесвіт через аромат зерен прямо підказує:", "Згідно з кодексом гармонійного ритму,", "Твоя внутрішня батарейка сигналізує:", "Атмосфера простору Body Karma Soul шепоче:", "Тільки поглянь на цей вдалий момент:"];
+    const conditions = ["тепла ароматна кава повертає ясність думки та відчуття ресурсу швидше за будь-що,", "кілька хвилин з улюбленим напоєм у руках — це найкращий спосіб перемкнутися і перезавантажитися,", "організм заслуговує на якісний заряд енергії та м'який дофаміновий підйом,", "ковток свіжозвареної кави у поєднанні з хрустким печивом творить справжні дива з настроєм,", "день стає помітно кращим і легшим одразу після першого теплого ковтка,", "це твій законний острівець спокою серед будь-якої метушні та справ,"];
+    const conclusions = ["тому обирай свій напій на автоматі та насолоджуйся моментом сповна.", "тому не відкладай насолоду — підійди до автомата і тисни кнопку улюбленої кави.", "а печиво з передбаченням поруч стане ідеальною парою до твоєї чашки.", "тому сміливо заварюй напій, роби паузу та відчуй заряд тепла.", "тому дозволь собі цю смачну паузу просто тут і зараз."];
+
+    const card = document.getElementById('card');
+    const welcomeView = document.getElementById('welcome-view');
+    const reasonView = document.getElementById('reason-view');
+    const reasonNumber = document.getElementById('reason-number');
+    const reasonHeader = document.getElementById('reason-header');
+    const reasonDesc = document.getElementById('reason-desc');
+    const btnAction = document.getElementById('btn-action');
+    const btnText = document.getElementById('btn-text');
+
+    let isFirstClick = true;
+
+    function getRandomItem(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    btnAction.addEventListener('click', () => {
+      card.style.opacity = '0.5';
+      setTimeout(() => {
+        if (isFirstClick) {
+          welcomeView.style.display = 'none';
+          reasonView.style.display = 'block';
+          btnText.textContent = 'Ще одна причина для кави';
+          isFirstClick = false;
+        }
+
+        const randomId = String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
+        reasonNumber.textContent = `Причина #${randomId}`;
+        reasonHeader.textContent = getRandomItem(titles);
+        reasonDesc.textContent = `${getRandomItem(intros)} ${getRandomItem(conditions)} ${getRandomItem(conclusions)}`;
+
+        card.style.opacity = '1';
+      }, 150);
+    });
+  </script>
+</body>
+</html>
